@@ -1,0 +1,301 @@
+/* 悬浮按钮与扫描面板（Shadow DOM 内部样式） */
+
+.eip,
+.eip * {
+  box-sizing: border-box;
+}
+
+.eip {
+  all: initial;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  color: #172033;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, -apple-system,
+    BlinkMacSystemFont, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  text-align: left;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.eip-fab {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 46px;
+  padding: 12px 18px 12px 15px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ff8a3d 0%, #ff4d2e 48%, #f0265b 100%);
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 650;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  box-shadow:
+    0 10px 28px rgba(238, 48, 61, 0.32),
+    0 3px 8px rgba(15, 23, 42, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    filter 160ms ease;
+}
+
+.eip-fab:hover {
+  transform: translateY(-1px);
+  filter: saturate(1.05);
+  box-shadow:
+    0 14px 34px rgba(238, 48, 61, 0.4),
+    0 4px 10px rgba(15, 23, 42, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.32);
+}
+
+.eip-fab:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.eip-fab:focus-visible {
+  outline: 3px solid rgba(255, 122, 61, 0.55);
+  outline-offset: 3px;
+}
+
+.eip-fab[disabled] {
+  cursor: wait;
+  filter: saturate(0.92);
+  opacity: 0.94;
+  transform: none;
+}
+
+.eip-fab-icon,
+.eip-fab-spinner {
+  display: flex;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.eip-fab-icon svg {
+  display: block;
+}
+
+.eip-fab-spinner {
+  display: none;
+  border: 2px solid rgba(255, 255, 255, 0.32);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: eip-spin 0.75s linear infinite;
+}
+
+.eip-fab.is-busy .eip-fab-icon {
+  display: none;
+}
+
+.eip-fab.is-busy .eip-fab-spinner {
+  display: block;
+}
+
+.eip-fab-text {
+  display: block;
+  line-height: 1;
+}
+
+.eip-panel {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 12px);
+  width: min(324px, calc(100vw - 44px));
+  padding: 14px 15px 13px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  background:
+    linear-gradient(180deg, rgba(32, 38, 55, 0.98) 0%, rgba(20, 25, 38, 0.98) 100%);
+  color: #f8fafc;
+  box-shadow:
+    0 18px 46px rgba(3, 7, 18, 0.38),
+    0 4px 14px rgba(3, 7, 18, 0.28);
+  backdrop-filter: blur(16px) saturate(1.1);
+  -webkit-backdrop-filter: blur(16px) saturate(1.1);
+  pointer-events: auto;
+  transform-origin: right bottom;
+  animation: eip-panel-in 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.eip-panel[hidden] {
+  display: none !important;
+}
+
+.eip-panel-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 20px;
+}
+
+.eip-state-dot {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 8px;
+  border-radius: 50%;
+  background: #60a5fa;
+  box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.14);
+}
+
+.eip-panel-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 650;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.eip-panel-close {
+  all: unset;
+  display: flex;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  color: rgba(226, 232, 240, 0.7);
+  font-family: inherit;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background 140ms ease,
+    color 140ms ease;
+}
+
+.eip-panel-close:hover {
+  background: rgba(255, 255, 255, 0.09);
+  color: #ffffff;
+}
+
+.eip-panel-close:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.65);
+  outline-offset: 1px;
+}
+
+.eip-panel-close[disabled] {
+  cursor: default;
+  opacity: 0.35;
+}
+
+.eip-progress {
+  position: relative;
+  height: 6px;
+  margin: 12px 0 9px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.eip-progress-fill {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #ffb15c 0%, #ff6a3d 52%, #ff3d6e 100%);
+  box-shadow: 0 0 12px rgba(255, 106, 61, 0.38);
+  transition: width 260ms ease;
+}
+
+.eip-panel-detail {
+  color: rgba(226, 232, 240, 0.74);
+  font-family: inherit;
+  font-size: 12px;
+  line-height: 1.55;
+  word-break: break-word;
+}
+
+.eip-panel[data-tone="success"] .eip-state-dot {
+  background: #34d399;
+  box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.14);
+}
+
+.eip-panel[data-tone="success"] .eip-progress-fill {
+  background: linear-gradient(90deg, #6ee7b7, #34d399);
+  box-shadow: 0 0 12px rgba(52, 211, 153, 0.32);
+}
+
+.eip-panel[data-tone="warning"] .eip-state-dot {
+  background: #fbbf24;
+  box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.14);
+}
+
+.eip-panel[data-tone="warning"] .eip-progress-fill {
+  background: linear-gradient(90deg, #fde68a, #f59e0b);
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.3);
+}
+
+.eip-panel[data-tone="error"] .eip-state-dot {
+  background: #fb7185;
+  box-shadow: 0 0 0 4px rgba(251, 113, 133, 0.14);
+}
+
+.eip-panel[data-tone="error"] .eip-progress-fill {
+  background: linear-gradient(90deg, #fda4af, #f43f5e);
+  box-shadow: 0 0 12px rgba(244, 63, 94, 0.3);
+}
+
+@keyframes eip-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes eip-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 480px) {
+  .eip-panel {
+    width: calc(100vw - 44px);
+    max-width: 324px;
+  }
+
+  .eip-fab {
+    min-height: 44px;
+    padding: 11px 16px 11px 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eip-fab,
+  .eip-progress-fill,
+  .eip-panel-close {
+    transition: none;
+  }
+
+  .eip-panel {
+    animation: none;
+  }
+
+  .eip-fab-spinner {
+    animation-duration: 1.4s;
+  }
+}

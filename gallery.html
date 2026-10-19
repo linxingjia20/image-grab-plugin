@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>图片采集 · 图库</title>
+    <link rel="stylesheet" href="gallery.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="app-header">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4.5" width="18" height="15" rx="3"></rect>
+              <circle cx="8.2" cy="9.2" r="1.25" fill="currentColor" stroke="none"></circle>
+              <path d="M3.8 16.2l4.3-4.1a1.8 1.8 0 0 1 2.4 0l2.2 2.1"></path>
+              <path d="M12.2 15.1l1.5-1.4a1.8 1.8 0 0 1 2.4 0l4.1 3.8"></path>
+            </svg>
+          </div>
+          <div class="brand-copy">
+            <h1>图片采集</h1>
+            <p id="sourceMeta" class="source-meta">正在读取采集结果…</p>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <a id="sourceLink" class="btn btn-ghost" href="#" target="_blank" rel="noopener noreferrer" hidden>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14 4h6v6"></path>
+              <path d="M20 4l-9 9"></path>
+              <path d="M19 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h4"></path>
+            </svg>
+            打开原页面
+          </a>
+        </div>
+      </header>
+
+      <main class="app-main">
+        <section id="loading" class="loading-state" aria-live="polite">
+          <span class="spinner" aria-hidden="true"></span>
+          <p>正在读取采集结果…</p>
+        </section>
+
+        <section id="emptyState" class="empty-state" hidden>
+          <div class="empty-art" aria-hidden="true">
+            <div class="empty-art-card empty-art-card-back"></div>
+            <div class="empty-art-card empty-art-card-front">
+              <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4.5" width="18" height="15" rx="3"></rect>
+                <circle cx="8.2" cy="9.2" r="1.25" fill="currentColor" stroke="none"></circle>
+                <path d="M3.8 16.2l4.3-4.1a1.8 1.8 0 0 1 2.4 0l2.2 2.1"></path>
+                <path d="M12.2 15.1l1.5-1.4a1.8 1.8 0 0 1 2.4 0l4.1 3.8"></path>
+              </svg>
+            </div>
+          </div>
+          <h2 id="emptyTitle">还没有采集记录</h2>
+          <p id="emptyText">
+            打开淘宝、天猫、京东或拼多多商品详情页，点击右下角的「获取图片」按钮，
+            扫描结果会集中显示在这里。
+          </p>
+          <div class="site-chips" aria-label="支持的平台">
+            <span>淘宝 / 天猫</span>
+            <span>京东</span>
+            <span>拼多多</span>
+          </div>
+        </section>
+
+        <section id="galleryView" class="gallery-view" hidden>
+          <div class="summary-row">
+            <p id="summary" class="summary"></p>
+            <p class="privacy-hint">PNG 转换完全在本地完成，图片不会上传。</p>
+          </div>
+
+          <div class="toolbar" role="toolbar" aria-label="图片选择与批量下载">
+            <div class="toolbar-group">
+              <label class="select-all">
+                <input id="selectAll" type="checkbox" />
+                <span>全选</span>
+              </label>
+              <button id="invertBtn" class="btn btn-quiet" type="button">反选</button>
+              <span id="countText" class="count-text">已选 0 / 0</span>
+            </div>
+
+            <div class="toolbar-group toolbar-group-right">
+              <label class="filter-field">
+                <span class="sr-only">筛选图片类型</span>
+                <select id="filterSelect">
+                  <option value="all">全部图片</option>
+                  <option value="image">普通图片</option>
+                  <option value="background">背景图</option>
+                </select>
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M6 9l6 6 6-6"></path>
+                </svg>
+              </label>
+
+              <button id="downloadBtn" class="btn btn-primary" type="button" disabled>
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 3v12"></path>
+                  <path d="M7 10l5 5 5-5"></path>
+                  <path d="M4 19h16"></path>
+                </svg>
+                <span id="downloadLabel">下载选中为 PNG</span>
+              </button>
+            </div>
+          </div>
+
+          <div id="grid" class="image-grid" aria-label="采集到的图片"></div>
+        </section>
+      </main>
+
+      <footer class="app-footer">
+        <span>图片采集 · Manifest V3</span>
+        <span>仅处理当前页面公开展示的图片</span>
+      </footer>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+    <div id="downloadBar" class="download-bar" role="status" aria-live="polite" hidden>
+      <div class="download-bar-head">
+        <span id="downloadText">正在转换并下载…</span>
+        <span id="downloadPercent">0%</span>
+      </div>
+      <div class="download-progress" aria-hidden="true">
+        <span id="downloadProgress"></span>
+      </div>
+      <div id="downloadDetail" class="download-detail"></div>
+    </div>
+
+    <div id="lightbox" class="lightbox" hidden role="dialog" aria-modal="true" aria-label="图片预览">
+      <button id="lightboxClose" class="lightbox-close" type="button" aria-label="关闭预览">×</button>
+      <figure class="lightbox-figure">
+        <img id="lightboxImg" alt="" referrerpolicy="no-referrer" />
+        <figcaption class="lightbox-caption">
+          <span id="lightboxCaption"></span>
+          <a id="lightboxOpen" class="lightbox-open" href="#" target="_blank" rel="noopener noreferrer" hidden>打开原图 ↗</a>
+        </figcaption>
+      </figure>
+    </div>
+
+    <script src="gallery.js" defer></script>
+  </body>
+</html>
